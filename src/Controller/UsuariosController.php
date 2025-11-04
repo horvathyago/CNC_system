@@ -66,8 +66,16 @@ class UsuariosController extends AppController
     public function edit($id = null)
     {
         $usuario = $this->Usuarios->get($id, contain: []);
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $usuario = $this->Usuarios->patchEntity($usuario, $this->request->getData());
+            $data = $this->request->getData();
+            
+            // Se o campo de senha estiver vazio, remove para não atualizar
+            if (empty($data['senha_hash'])) {
+                unset($data['senha_hash']);
+            }
+            
+            $usuario = $this->Usuarios->patchEntity($usuario, $data);
             if ($this->Usuarios->save($usuario)) {
                 $this->Flash->success(__('The usuario has been saved.'));
 
@@ -75,6 +83,9 @@ class UsuariosController extends AppController
             }
             $this->Flash->error(__('The usuario could not be saved. Please, try again.'));
         }
+        
+        // Remove a senha hash para segurança antes de enviar para a view
+        $usuario->senha_hash = '';
         $this->set(compact('usuario'));
     }
 

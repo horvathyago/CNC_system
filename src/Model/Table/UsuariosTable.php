@@ -69,6 +69,16 @@ class UsuariosTable extends Table
             ->notEmptyString('senha_hash');
 
         $validator
+            ->scalar('confirmesenha_hash')
+            ->maxLength('confirmesenha_hash', 255)
+            ->requirePresence('confirmesenha_hash', 'create')
+            ->notEmptyString('confirmesenha_hash')
+            ->add('confirmesenha_hash', 'compareWith', [
+                'rule' => ['compareWith', 'senha_hash'],
+                'message' => 'As senhas não coincidem.',
+            ]);
+
+        $validator
             ->scalar('tipo_usuario')
             ->notEmptyString('tipo_usuario');
 

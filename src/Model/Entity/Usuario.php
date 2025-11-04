@@ -4,30 +4,10 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Auth\DefaultPasswordHasher;
 
-/**
- * Usuario Entity
- *
- * @property int $id_usuario
- * @property string $nome
- * @property string $email
- * @property string $senha_hash
- * @property string $tipo_usuario
- * @property int|null $id_maquina_preferida
- * @property string $status
- * @property \Cake\I18n\DateTime $data_criacao
- */
 class Usuario extends Entity
 {
-    /**
-     * Fields that can be mass assigned using newEntity() or patchEntity().
-     *
-     * Note that when '*' is set to true, this allows all unspecified fields to
-     * be mass assigned. For security purposes, it is advised to set '*' to false
-     * (or remove it), and explicitly make individual fields accessible as needed.
-     *
-     * @var array<string, bool>
-     */
     protected array $_accessible = [
         'nome' => true,
         'email' => true,
@@ -37,4 +17,30 @@ class Usuario extends Entity
         'status' => true,
         'data_criacao' => true,
     ];
+
+    protected array $_hidden = [
+        'senha_hash',
+    ];
+
+    /**
+     * Criptografa a senha ao salvar
+     */
+    protected function _setSenhaHash($senha_hash)
+    {
+        if (strlen($senha_hash) > 0) {
+            return (new DefaultPasswordHasher())->hash($senha_hash);
+        }
+    }
+
+    /**
+     * Verifica a senha informada com o hash salvo
+     */
+    public function verificarSenha($senha)
+    {
+        if (empty($this->senha_hash)) {
+            return false;
+        }
+
+        return (new DefaultPasswordHasher())->check($senha, $this->senha_hash);
+    }
 }

@@ -20,6 +20,7 @@
                     echo $this->Form->control('nome');
                     echo $this->Form->control('email');
                     echo $this->Form->control('senha_hash');
+                    echo $this->Form->control('confirmesenha_hash', ['type' => 'password']);
                     echo $this->Form->control('tipo_usuario');
                     echo $this->Form->control('id_maquina_preferida');
                     echo $this->Form->control('status');
