@@ -35,12 +35,19 @@ class PecasTable extends Table
      */
     public function initialize(array $config): void
     {
-        parent::initialize($config);
+    parent::initialize($config);
 
-        $this->setTable('pecas');
-        $this->setDisplayField('codigo');
-        $this->setPrimaryKey('id_peca');
+    $this->setTable('pecas');
+    $this->setDisplayField('codigo');
+    $this->setPrimaryKey('id_peca');
+
+    // Relação com EstoquePecas
+    $this->hasOne('EstoquePecas', [
+        'foreignKey' => 'id_peca',
+        'dependent' => true, // se deletar a peça, deleta o estoque
+    ]);
     }
+
 
     /**
      * Default validation rules.

@@ -16,6 +16,15 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/login/login', ['controller' => 'Login', 'action' => 'login']);
         $builder->connect('/logout', ['controller' => 'Login', 'action' => 'logout']);
 
+        //Rotas de Estoque
+        $builder->connect('/estoquepecas', ['controller' => 'EstoquePecas', 'action' => 'index']);
+        $builder->connect('/estoquemateriaprima', ['controller' => 'EstoqueMateriaPrima', 'action' => 'index']);
+
+        //Rotas de Materia Prima
+        $builder->connect('/materiaprima', ['controller' => 'MateriaPrima', 'action' => 'index']);
+        $builder->connect('/materiaprima/add', ['controller' => 'MateriaPrima', 'action' => 'add']);
+        
+
         // Fallbacks para outros controllers
         $builder->fallbacks();
     });
