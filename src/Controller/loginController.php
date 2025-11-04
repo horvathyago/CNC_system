@@ -54,4 +54,10 @@ class LoginController extends AppController
         $this->Flash->success(__('Você saiu do sistema.'));
         return $this->redirect(['controller' => 'Login', 'action' => 'login']);
     }
+
+    public function index()
+    {
+    return $this->redirect(['action' => 'login']);
+    }
+
 }
