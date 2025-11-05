@@ -7,7 +7,7 @@ return function (RouteBuilder $routes): void {
 
     $routes->scope('/', function (RouteBuilder $builder): void {
         // Página inicial
-        $builder->connect('/', ['controller' => 'Login', 'action' => 'index']);
+        $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
         // Pages
         $builder->connect('/pages/*', 'Pages::display');
